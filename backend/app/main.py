@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from backend.app.routers.endpoints import router
+from backend.app.routers import router
 
 app = FastAPI(
     title="AIAD"
