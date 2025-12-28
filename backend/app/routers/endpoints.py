@@ -29,11 +29,6 @@ from backend.app.auth import (
 router = APIRouter()
 
 
-# ===== get authorized user =====
-
-async def get_current_user():
-    return 0
-
 # ===== health checking =====
 
 @router.get(
@@ -46,6 +41,10 @@ async def health_check():
 
 
 # ===== authorization and authentication =====
+
+async def get_current_user():
+    return 0
+
 
 @router.post("/register",
              response_model=UserResponse,
