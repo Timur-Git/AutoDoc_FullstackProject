@@ -54,6 +54,8 @@ async def update_user(
     for key, value in kwargs.items():
         if hasattr(user, key):
             setattr(user, key, value)
+        else:
+            raise AttributeError(f"Field {key} does not exist")
     
     await session.commit()
     await session.refresh(user)

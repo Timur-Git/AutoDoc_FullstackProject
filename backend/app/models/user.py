@@ -17,6 +17,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(255))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     role: Mapped[str] = mapped_column(String(20), default=RoleEnum.USER)
+    is_logged_on: Mapped[bool] = mapped_column(Boolean, default=False)
     
     # Отношение "один-ко-многим" с Repository
     repositories: Mapped[list["Repository"]] = relationship(

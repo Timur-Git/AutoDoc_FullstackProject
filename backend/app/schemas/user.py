@@ -1,5 +1,4 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
 from datetime import datetime
 
 
@@ -19,8 +18,9 @@ class UserLogin(BaseModel):
 
 class UserResponse(UserBase):
     id: int
+    username: str
+    email: EmailStr
     created_at: datetime
-    last_login: Optional[datetime] = None
 
     class Config:
         orm_mode = True

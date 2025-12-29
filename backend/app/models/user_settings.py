@@ -18,6 +18,6 @@ class UserSettings(Base):
 
     user: Mapped["User"] = relationship(
         "User",
-        back_populates="usersettings",
+        back_populates="settings",
         uselist=False
     )

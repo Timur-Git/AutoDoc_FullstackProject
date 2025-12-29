@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from jose import jwt
 
 from backend.app.config import settings
@@ -11,14 +10,14 @@ if not(SECRET_KEY and ALGORITHM and ACCESS_TOKEN_EXPIRE_MINUTES and REFRESH_TOKE
     raise ValueError("Token settings is not set in .env")
 
 
-def create_token(data: dict, expires_delta: timedelta = None) -> str:
+def create_token(data: dict) -> str:
     to_encode = data.copy()
 
     encoded_jwt = jwt.encode(
         claims=to_encode,
         key=SECRET_KEY,
         algorithm=ALGORITHM
-        )
+    )
     return encoded_jwt
 
 
@@ -27,5 +26,5 @@ def decode_token(token: str) -> dict:
         token=token,
         key=SECRET_KEY,
         algorithms=[ALGORITHM]
-        )
+    )
     return payload
