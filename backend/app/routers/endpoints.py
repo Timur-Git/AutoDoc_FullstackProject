@@ -8,15 +8,18 @@ from backend.app.schemas import (
     UserResponse,
     UserRegister,
     UserLogin,
-    Token
+    Token,
+    SettingsResponse,
+    ThemeRequest
 )
 from backend.app.database import get_session
-from backend.app.models import User
+from backend.app.models import User, UserSettings
 from backend.app.crud import (
     get_user_by_username,
     get_user_by_id,
     create_user,
-    update_user
+    update_user,
+    update_user_settings
 )
 from backend.app.auth import (
     get_password_hash,
@@ -295,7 +298,48 @@ async def logout(
 @router.get("/users/me",
             response_model=UserResponse,
             status_code=status.HTTP_200_OK)
-def read_users_me(
+async def read_users_me(
     current_user: User = Depends(get_current_user)
 ) -> User:
     return current_user
+
+
+@router.get("/users/me/settings",
+            response_model=SettingsResponse,
+            status_code=status.HTTP_200_OK)
+async def get_user_settings(
+    current_user: User = Depends(get_current_user)
+) -> SettingsResponse:
+    settings: UserSettings = current_user.settings
+
+    return SettingsResponse(
+        theme=settings.theme
+    )
+
+
+@router.post("/users/me/settings/theme",
+             response_model=None,
+             status_code=status.HTTP_200_OK)
+async def set_user_settings_theme(
+    setting_data: ThemeRequest,
+    current_user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session)
+) -> dict:
+    settings: UserSettings = current_user.settings
+    
+    await update_user_settings(
+        session=session,
+        user_serttings_id=settings.id,
+        **{
+            "theme": setting_data.theme
+        }
+    )
+
+    return {"message": "Successed set theme"}
+
+# TODO:
+# GET /repo/send-analyze + FILE
+# GET /repo/send-analyze/ws
+# GET /repo/doc
+# GET /repos/my
+# GET /repos/public

@@ -5,7 +5,7 @@ import enum
 from . import Base
 
 
-class RoleEnum(str, enum.Enum):
+class ThemeEnum(str, enum.Enum):
     DARK = "dark"
     LIGHT = "light"
     SYSTEM = "system"
@@ -14,7 +14,7 @@ class RoleEnum(str, enum.Enum):
 class UserSettings(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
     
-    theme: Mapped[str] = mapped_column(String(10), default=RoleEnum.DARK)
+    theme: Mapped[str] = mapped_column(String(10), default=ThemeEnum.DARK)
 
     user: Mapped["User"] = relationship(
         "User",
